@@ -1,0 +1,19 @@
+{
+  "name": "server",
+  "version": "1.0.0",
+  "description": "A simple express server",
+  "main": "index.js",
+  "scripts": {
+    "start": "node index"
+  },
+  "author": "Victorino, Sairesse <sairessy@gmail.com>",
+  "license": "MIT",
+  "dependencies": {
+    "cookie-parser": "^1.4.6",
+    "dotenv": "^10.0.0",
+    "express": "^4.17.1",
+    "nedb": "^1.8.0",
+    "node-fetch": "^2.5.0",
+    "nodemailer": "^6.7.2"
+  }
+}

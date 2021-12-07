@@ -1,0 +1,508 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="icon" href="assets/img/logo-o.png">
+  <link rel="stylesheet"
+  href="https://cdnjs.cloudflare.com/ajax/libs/line-awesome/1.3.0/line-awesome/css/line-awesome.min.css"
+  integrity="sha512-vebUliqxrVkBy3gucMhClmyQP9On/HAWQdKDXRaAlb/FKuTbxkjPKUyqVOxAcGwFDka79eTF+YXwfke1h3/wfg=="
+  crossorigin="anonymous" referrerpolicy="no-referrer" />
+  <link rel="stylesheet" href="css/home/index.css">
+  <link rel="stylesheet" href="css/global.css">
+  <script src="js/config.js"></script>
+  <title>exchange</title>
+</head>
+<body>
+  <header>
+    <div class="header-top">
+      <div>
+        <h1>
+          <a href="/">
+            <img src="assets/img/logo-o.png" width="40" height="40" alt="logo">
+            <script>document.write(config.title)</script>
+          </a>
+        </h1>
+      </div>
+      <div><button id="btn-add-new-idea"><i class="la la-plus"></i>Adicionar novo producto</button></div>
+      <div>
+        <input type="search" placeholder="Pesquisar" disabled>
+        <div class="btn-notifications">
+          <i class="la la-lg la-bell"></i>
+          <span>0</span>
+        </div>
+        <a href="/login" id="btn-login">Entrar</a>
+      </div>
+    </div>
+    <div class="header-bottom">
+      <p>O que não precisamos mais pode ser útil aos outros e vice-versa!</p>
+    </div>
+  </header>
+  <main>
+    <div class="main-left">
+   
+      <div id="posts">
+        <!-- <h2 style="color: #999;">0 Posts!</h2> -->
+      </div>
+
+    </div>
+
+      <div class="main-right">
+        <div class="main-right-wrapper">
+          <div class="categories">
+            <!-- <h3>Categorias</h3> -->
+            <select id="select-category-filter">mática</option></select>
+          </div>
+
+          <form id="form-feedback">
+            <div id="title">Feedback</div>
+            <div id="feedback-inputs">
+              <input type="text" id="inp-title"  placeholder="Titulo do feedback">
+              <textarea id="textarea-feedback" cols="30" rows="10" placeholder="Dê-nos o seu feedback..."></textarea>
+              <input type="email" id="inp-feedback-email" placeholder="Seu email">
+              <input type="submit" id="btn-submit-feedback" value="Enviar">
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+  </main>
+
+  <div id="form-add-idea-container">
+    <form id="form-add-idea">
+      <div id="choose-post-photo"></div>
+      <input type="text"  id="inp-idea-title" placeholder="Introduza o titulo" required autofocus />
+      <textarea id="textarea-idea" cols="30" rows="10" placeholder="Introduza a descrição..." required></textarea>
+      <select id="select-idea-category"></select>
+      <input type="text" id="inp-change-by" placeholder="Troca por... (Ex.: Laptop, Livros,...)" />
+      <input type="text" id="inp-price" placeholder="Preço (opcional)" />
+      <input type="submit" id="btn-submit-idea" value="Adicionar" />
+    </form>
+  </div>
+
+  <div id="form-edit-comment-container">
+    <form id="form-edit-comment" value='x'>
+      <textarea id="textarea-comment-text" cols="30" rows="10" placeholder="Introduza o texto..." required></textarea>
+      <input type="submit" id="btn-edit-comment" value="Editar">
+    </form>
+  </div>
+</body>
+
+<script>
+  document.getElementById('btn-add-new-idea').addEventListener('click', () => {
+    document.getElementById('form-add-idea-container').style.display = 'flex'
+  })
+
+  document.getElementById('form-add-idea-container').addEventListener('click', e => {
+    if(e.target.id === 'form-add-idea-container') {
+      document.getElementById('form-add-idea-container').style.display = 'none'
+    }
+  })
+
+  document.getElementById('form-edit-comment-container').addEventListener('click', e => {
+    if(e.target.id === 'form-edit-comment-container') {
+      document.getElementById('form-edit-comment-container').style.display = 'none'
+    }
+  })
+
+
+  let postImg = null;
+  let postImgExt = null;
+
+  document.getElementById('choose-post-photo').addEventListener('click', () => {
+    let files = [];
+    let reader;
+
+    let input = document.createElement('input');
+    input.type = 'file';
+
+
+    input.onchange = e => {
+      files = e.target.files;
+
+      reader = new FileReader();
+      reader.onload = async () => {
+      const size = files[0].size
+      const ext = files[0].type.split('/')[1]
+
+      if(!['png', 'jpg', 'jpeg', 'jfif'].includes(ext)) {
+        alert('A extensão do ficheiro não é válida!')
+        return
+      }
+
+      if(size > 1024000) {
+        alert('O tamanho do seu ficheiro é superior ao limite permitido (1 MB)')
+        return
+      }
+
+        postImg = reader.result
+        postImgExt = ext
+        document.getElementById('choose-post-photo').style.background = `url(${reader.result}) no-repeat center center/contain`;
+      }
+
+      reader.readAsDataURL(files[0]);
+    }
+
+    input.click();
+  })
+
+  document.getElementById('form-add-idea').addEventListener('submit', async e => {
+    e.preventDefault()
+    const title = document.getElementById('inp-idea-title').value
+    const text = document.getElementById('textarea-idea').value
+    const category = document.getElementById('select-idea-category').value
+    const changeBy = document.getElementById('inp-change-by').value
+    const price = document.getElementById('inp-price').value
+
+    const idea = {title, text, category, removed: false, changeBy, img: postImg, ext: postImgExt, price}
+
+    const response = await fetch('/post', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify(idea)
+    })
+
+    const json = await response.json()
+
+    if(json.success) {
+      alert('Post adicionado com sucesso!')
+    }
+
+  })
+
+  checkSession()
+  async function checkSession() {
+    const response = await fetch('/checksession')
+    const json = await response.json()
+
+    if(json.length > 0) {
+      document.getElementById('btn-login').innerText = 'Meu perfil'
+      document.getElementById('btn-login').href = '/dashboard'
+    }
+  }
+
+  const toggleComments = (id) => {
+    const displayed = document.getElementById(id).style.display
+    if(displayed === 'none') {
+      document.getElementById(id).style.display = 'block'
+    } else {
+      document.getElementById(id).style.display = 'none'
+    }
+  }
+
+  getPosts()
+  async function getPosts() {
+    let comments = '';
+
+    const response = await fetch('/posts')
+    const json = await response.json()
+    let posts = '';
+
+    if(json.posts.length > 0) {
+      const user = json.user
+      json.posts.forEach(post => {
+        let iLike = false
+        if(post.comments !== undefined) {
+          if(post.comments.length > 0) {
+            post.comments.forEach(c => {
+              comments += 
+              `
+                <div class='comment'>
+                  <div>
+                    <i class='la la-trash' onClick='removeComment("${c.time}")'></i>  
+                    <i class='la la-edit' onClick='editComment("${c.time}")'></i>  
+                  </div>
+                  
+                  <div class='commenter'>
+                    <div class='commenter-container'>
+                      <div class='commenter-photo'
+                        style='background: url(assets/img/user.svg) no-repeat center center/20px;background-color: #ddd;'
+                      ></div>
+                      <b>
+                        ${c.userInfo.fullName}
+                      </b>
+                    </div>
+                    <p>${c.text}</p>
+                  </div>
+                </div>
+              `
+            })
+          }
+
+          if(post.likes !== undefined) {
+            const users = post.likes.filter(l => l.user === user)
+            if(users.length > 0) {
+              iLike = true
+            }
+          }
+        }
+
+        const postTime = new Date(parseInt(post.time)).getDate() + '-' +
+        
+        (new Date(parseInt(post.time)).getMonth() + 1) + '-' +
+        new Date(parseInt(post.time)).getFullYear() + '  ' +
+
+        new Date(parseInt(post.time)).getHours() + ' : ' +
+        new Date(parseInt(post.time)).getMinutes() + ' : ' +
+        new Date(parseInt(post.time)).getSeconds()
+
+        const photo = post.img == '' ? 'assets/img/image.svg' : post.img
+        const zone = config.zones.filter(z => post.userInfo.zone == z.id)[0].label
+
+        posts += 
+        `
+          <div class="post">
+            <div class="the-post">
+              <div class='post-header'>
+                <h3 class='post-title'>${post.title}</h3>
+                <p class='post-time'>${postTime}</p>
+              </div>
+
+              <div class='the-post-body'>
+                <!--<h2 class='post-author'><i class='la la-user-circle'></i>${post.userInfo.fullName !== undefined ? post.userInfo.fullName : 'John Doe' }</h2>-->
+                <!--<p class='text'>${post.text}</p>-->
+                <div class='post-photo' style="background: url(${photo}) no-repeat center center/contain;background-color: #fcfcfc;">
+                  <span>${post.price != undefined && post.price != '' ? '$ ' + post.price : ''}</span>  
+                </div>
+                <div><p><b>Troca por:</b> ${post.changeBy} </p></div>
+                <div><p><b>Contacto:</b> ${post.userInfo.contact} </p></div>
+                <div><p><b>Bairro:</b> ${zone == 'Seleccionar bairro' ? 'N/D' : zone } </p></div>
+                <div class="like-comment">
+                  <button  onClick='like("${post._id}")'>
+                    <span>${post.likes !== undefined ? post.likes.length : 0}</span> <i style='color: ${iLike ? 'blue' : '#000'};' class="la la-thumbs-up"></i>
+                  </button>
+                  <button onClick='toggleComments("${post._id}")'>
+                    <span>
+                      ${comments !== '' ? post.comments.length : 0}
+                    </span> <i class="la la-comments"></i>
+                  </button>
+                </div>
+              </div>
+            </div>
+
+            <div style='display: none;' class='comments-container' id='${post._id}'>
+                <div class='form-comment'>
+                  <input type='text' placeholder='Comentar...' required id="inp-${post._id}"/>  
+                  <button onClick='commentPost("${post._id}")'><i class='la la-send'></i></button>
+                </div>
+                <div class='comments'>
+                  ${comments}  
+                </div>
+              </div>
+          </div>
+        `
+
+        comments = ''
+      })
+    }
+
+    document.getElementById('posts').innerHTML = posts
+  }
+
+  async function removeComment(id) {
+    const response = await fetch('/removepost', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify({id})
+    })
+
+    const json = await response.json()
+
+    if(!json.success) {
+      alert('Não foi possível remover o comentário!')
+    } else {
+      getPosts()
+    }
+  }
+
+  let commentToBeEdited = ''
+
+  async function editComment(id) {
+    commentToBeEdited = id
+    document.getElementById('form-edit-comment-container').style.display = 'block'
+  }
+
+  document.getElementById('form-edit-comment').addEventListener('submit', async e => {
+    e.preventDefault()
+    const text = document.getElementById('textarea-comment-text').value
+    
+    const response = await fetch('/editcomment', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify({text, commentToBeEdited})
+    })
+
+    const json = await response.json()
+
+    if(!json.success) {
+      alert('Não foi possível editar o comentário!')
+    } else {
+      getPosts()
+    }
+  })
+
+  async function commentPost(id) {
+    const text = document.getElementById(`inp-${id}`).value
+    const comment = {id, text}
+    const response = await fetch('/commentpost', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify(comment)
+    })
+
+    const json = await response.json()
+
+    if(!json.success) {
+      alert('Não foi possível comentar!')
+    } else {
+      getPosts()
+    }
+  }
+
+  async function like(id) {
+    const response = await fetch(`/likepost/${id}`)
+    const json = await response.json()
+
+    if(json.success) {
+      getPosts()
+    } else {
+      alert('Não foi possível adicionar gosto!')
+    }
+  }
+
+  async function getPostsFromCategory(id) {
+    
+    const response = await fetch(`/posts/category/${id}`)
+    const json = await response.json()
+    
+    let comments = '';
+    let posts = '';
+
+    if(json.posts.length > 0) {
+      const user = json.user
+      json.posts.forEach(post => {
+        let iLike = false
+        if(post.comments !== undefined) {
+          if(post.comments.length > 0) {
+            post.comments.forEach(c => {
+              comments += 
+              `
+                <div class='comment'>
+                  <div>
+                    <i class='la la-trash' onClick='removeComment("${c.time}")'></i>  
+                    <i class='la la-edit' onClick='editComment("${c.time}")'></i>  
+                  </div>
+                  
+                  <div class='commenter'>
+                    <div class='commenter-container'>
+                      <div class='commenter-photo'
+                        style='background: url(assets/img/user.svg) no-repeat center center/20px;background-color: #ddd;'
+                      ></div>
+                      <b>
+                        ${c.userInfo.fullName}
+                      </b>
+                    </div>
+                    <p>${c.text}</p>
+                  </div>
+                </div>
+              `
+            })
+          }
+
+          if(post.likes !== undefined) {
+            const users = post.likes.filter(l => l.user === user)
+            if(users.length > 0) {
+              iLike = true
+            }
+          }
+        }
+
+        const postTime = new Date(parseInt(post.time)).getDate() + '-' +
+        
+        (new Date(parseInt(post.time)).getMonth() + 1) + '-' +
+        new Date(parseInt(post.time)).getFullYear() + '  ' +
+
+        new Date(parseInt(post.time)).getHours() + ' : ' +
+        new Date(parseInt(post.time)).getMinutes() + ' : ' +
+        new Date(parseInt(post.time)).getSeconds()
+
+        const photo = post.img == '' ? 'assets/img/image.svg' : post.img
+        const zone = config.zones.filter(z => post.userInfo.zone == z.id)[0].label
+
+        posts += 
+        `
+          <div class="post">
+            <div class="the-post">
+              <div class='post-header'>
+                <h3 class='post-title'>${post.title}</h3>
+                <p class='post-time'>${postTime}</p>
+              </div>
+
+              <div class='the-post-body'>
+                <!--<h2 class='post-author'><i class='la la-user-circle'></i>${post.userInfo.fullName !== undefined ? post.userInfo.fullName : 'John Doe' }</h2>-->
+                <!--<p class='text'>${post.text}</p>-->
+                <div class='post-photo' style="background: url(${photo}) no-repeat center center/contain;background-color: #fcfcfc;">
+                  <span>${post.price != undefined && post.price != '' ? '$ ' + post.price : ''}</span>  
+                </div>
+                <div><p><b>Troca por:</b> ${post.changeBy} </p></div>
+                <div><p><b>Contacto:</b> ${post.userInfo.contact} </p></div>
+                <div><p><b>Bairro:</b> ${zone == 'Seleccionar bairro' ? 'N/D' : zone } </p></div>
+                <div class="like-comment">
+                  <button  onClick='like("${post._id}")'>
+                    <span>${post.likes !== undefined ? post.likes.length : 0}</span> <i style='color: ${iLike ? 'blue' : '#000'};' class="la la-thumbs-up"></i>
+                  </button>
+                  <button onClick='toggleComments("${post._id}")'>
+                    <span>
+                      ${comments !== '' ? post.comments.length : 0}
+                    </span> <i class="la la-comments"></i>
+                  </button>
+                </div>
+              </div>
+            </div>
+
+            <div style='display: none;' class='comments-container' id='${post._id}'>
+                <div class='form-comment'>
+                  <input type='text' placeholder='Comentar...' required id="inp-${post._id}"/>  
+                  <button onClick='commentPost("${post._id}")'><i class='la la-send'></i></button>
+                </div>
+                <div class='comments'>
+                  ${comments}  
+                </div>
+              </div>
+          </div>
+        `
+
+        comments = ''
+      })
+    }
+
+    if(posts !== '') {
+      document.getElementById('posts').innerHTML = posts
+    } else {
+      document.getElementById('posts').innerHTML = `<h2 style="color: #999; text-align: center;">0 Posts!</h2>`
+    }
+  }
+
+  document.getElementById('select-category-filter').addEventListener('change', e => {
+    const value = e.target.value
+    value != '' ? getPostsFromCategory(value) : getPosts();
+  })
+
+
+  let categories = ''
+  config.postsCategories.forEach(p => {
+    categories += `<option value="${p.id}">${p.label}</option>`
+  })
+  document.getElementById('select-category-filter').innerHTML = categories
+  document.getElementById('select-idea-category').innerHTML = categories
+</script>
+</html>

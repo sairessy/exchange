@@ -1,0 +1,315 @@
+header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  background-color: #fff;
+  border-bottom: 1px solid #eee;
+  box-shadow: 0 -1px 4px #ccc;
+  padding: 10px;
+  height: 60px;
+  position: sticky;
+  top: 0;
+}
+
+header h1 {
+  font-family: Bahnschrift;
+  font-size: 26px;
+}
+
+header h1 a {
+  display: flex;
+  align-items: center;
+}
+
+header h1 a img {
+  margin-right: 10px;
+}
+
+header > div {
+  display: flex;
+  align-items: center;
+  flex: 1;
+  justify-content: center;
+}
+
+header > div:nth-child(1) {
+  justify-content: left;
+  padding-left: 50px;
+}
+
+header > div:nth-child(3) {
+  justify-content: right;
+  padding-right: 50px;
+}
+
+header button {
+  flex: 1;
+  background-color: #0000ff1f;
+  border: none;
+  color: indigo;
+  padding: 12px;
+  cursor: pointer;
+  border-radius: 5px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+header button i {
+  margin-right: 10px;
+  font-size: 16px;
+}
+
+header > div > a {
+  margin-left: 10px;
+  color: #fff;
+  background-color: indigo;
+  padding: 10px;
+  border-radius: 5px;
+  width: 100px;
+  text-align: center;
+}
+
+/* main */
+main {
+  display: flex;
+}
+
+main .main-left, main .main-right {
+  flex: 1;
+  justify-content: center;
+}
+
+main .main-right {
+  margin: 0 10px;
+}
+
+main .main-left {
+  padding: 0 200px;
+}
+
+.main-right .dashboard {
+  justify-content: space-around;
+}
+
+.main-right .dashboard {
+  flex: 1;
+  margin: 0 5px;
+}
+
+.dashboard h3 {
+  background-color: #fff;
+  padding: 5px;
+  text-align: center;
+  border-radius: 5px;
+  color: #666;
+  width: 300px;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+#form-profile {
+  display: flex;
+  flex-direction: column;
+  padding: 10px;
+  border-radius: 10px;
+  justify-content: center;
+  width: 300px;
+  margin: auto;
+}
+
+#form-profile input, #form-profile select {
+  margin-bottom: 10px;
+  border-radius: 5px;
+  border: 1px solid #eee;
+  padding: 10px;
+}
+
+#form-profile input:focus,
+#form-profile select:focus,
+#form-profile textarea:focus {
+  border-color: #ddd;
+}
+
+#form-profile input[type='submit'] {
+  background-color: indigo;
+  color: #fff;
+  cursor: pointer;
+}
+
+main .post {
+  margin-bottom: 50px;
+}
+
+.post .post-author {
+  font-size: 16px;
+  color: #666;
+}
+
+.post h3 {
+  color: #666;
+  display: flex;
+  align-items: center;
+}
+
+.post h3 i {
+  margin-right: 10px;
+  cursor: pointer;
+}
+
+.post h3 i:hover {
+  color: #ff0000;
+}
+
+main .like-comment {
+  display: flex;
+  align-items: center;
+}
+
+main .like-comment button {
+  width: 120px;
+  border: none;
+  padding: 12px 10px;
+  border-radius: 5px;
+  cursor: pointer;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-right: 5px;
+}
+
+main .like-comment button span {
+  display: inline-block;
+  width: 50px;
+}
+
+main .like-comment button i {
+  font-size: 16px;
+  margin-left: 10px;
+}
+
+.founders-container {
+  display: none;
+}
+
+.founders-container h3 {
+  padding: 5px;
+  text-align: center;
+  border-radius: 5px;
+  color: #666;
+  margin: 10px 20px;
+}
+
+.founders {
+  display: flex;
+  justify-content: center;
+  margin-top: 20px;
+}
+
+.founders div {
+  background-color: #eee;
+  width: 50px;
+  height: 50px;
+  border-radius: 100%;
+  margin: auto 20px;
+}
+
+/*  */
+#form-add-idea-container {
+  display: none;
+  justify-content: center;
+  position: fixed;
+  top: 0;
+  width: 100%;
+  height: 100vh;
+  background-color: #0000ff13;
+  overflow-y: scroll;
+}
+
+#form-add-idea {
+  display: flex;
+  flex-direction: column;
+  background-color: #fff;
+  width: 60%;
+  padding: 10px;
+
+}
+
+#form-add-idea #choose-post-photo {
+  height: 250px;
+  background-color: #f9f9f9;
+  border-radius: 5px;
+  margin-bottom: 5px;
+  cursor: pointer;
+}
+
+#inp-idea-title {
+  padding: 15px;
+  margin-bottom: 10px;
+  border-radius: 5px;
+  border: 1px solid #eee;
+}
+
+textarea {
+  padding: 15px;
+  border-radius: 5px;
+  border: 1px solid #eee;
+}
+
+#select-idea-category {
+  padding: 15px;
+  margin: 10px 0;
+  border-radius: 5px;
+  border: 1px solid #eee;
+}
+
+#btn-submit-idea {
+  background-color: indigo;
+  color: #fff;
+  cursor: pointer;
+  border-radius: 5px;
+  border: none;
+  padding: 15px;
+  margin-top: 10px;
+}
+
+#form-add-idea input {
+  padding: 12px;
+  border-radius: 5px;
+  margin-bottom: 5px;
+}
+
+#form-add-idea input:focus,
+#form-add-idea select:focus,
+#form-add-idea textarea:focus {
+  border-color: #ddd;
+}
+
+/*  */
+.btn-notifications {
+  position: relative;
+  width: 30px;
+  height: 30px;
+  background-color: #eee;
+  border-radius: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-right: 10px;
+  cursor: pointer;
+}
+
+.btn-notifications span {
+  position: absolute;
+  top: -5px;
+  right: -5px;
+  font-size: 12px;
+  width: 20px;
+  height: 20px;
+  background-color: #ff0000;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  color: #fff;
+  border-radius: 100%;
+}

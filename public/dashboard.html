@@ -1,0 +1,240 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="icon" href="assets/img/logo-o.png">
+  <link rel="stylesheet"
+  href="https://cdnjs.cloudflare.com/ajax/libs/line-awesome/1.3.0/line-awesome/css/line-awesome.min.css"
+  integrity="sha512-vebUliqxrVkBy3gucMhClmyQP9On/HAWQdKDXRaAlb/FKuTbxkjPKUyqVOxAcGwFDka79eTF+YXwfke1h3/wfg=="
+  crossorigin="anonymous" referrerpolicy="no-referrer" />
+  <link rel="stylesheet" href="css/global.css">
+  <link rel="stylesheet" href="css/dashboard/dashboard.css">
+  <script src="js/config.js"></script>
+  <title>Dashboard</title>
+</head>
+<body>
+  <header>
+    <div>
+      <h1>
+        <a href="/">
+          <img src="assets/img/logo-o.png" width="40" height="40" alt="logo">
+          <script>document.write(config.title)</script>
+        </a>
+      </h1>
+    </div>
+    <div><button id="btn-add-new-idea"><i class="la la-plus"></i>Adicionar nova ideia</button></div>
+    <div>
+      <div class="btn-notifications">
+        <i class="la la-lg la-bell"></i>
+        <span>0</span>
+      </div>
+      <a href="/logout">Sair</a>
+    </div>
+  </header>
+  <main>
+    <div class="main-left">
+      <div id="posts">
+        <h2 style="color: #999;">0 Posts!</h2>
+      </div>
+    </div>
+
+      <div class="main-right">
+        <div class="dashboard">
+          <h3>Meu perfil</h3>
+
+          <form id="form-profile">
+            <input type="text" id="inp-full-name" placeholder="Nome completo" required autofocus spellcheck="false">
+            <input type="email" id="inp-email" placeholder="Email" required>
+            <input type="text" placeholder="Contacto" id="inp-contact">
+            <select id="select-zone"> 
+            </select>
+            <input type="submit" id="btn-update-profile" value="Actualizar">
+          </form>
+        </div>
+
+      </div>
+
+    </div>
+  </main>
+
+  <div id="form-add-idea-container">
+    <form id="form-add-idea">
+      <div id="choose-post-photo"></div>
+      <input type="text"  id="inp-idea-title" placeholder="Introduza o titulo" required autofocus />
+      <textarea id="textarea-idea" cols="30" rows="10" placeholder="Introduza a descrição..." required></textarea>
+      <select id="select-idea-category"></select>
+      <input type="text" id="inp-change-by" placeholder="Troca por... (Ex.: Laptop, Livros,...)" />
+      <input type="text" id="inp-price" placeholder="Preço (opcional)" />
+      <input type="submit" id="btn-submit-idea" value="Adicionar" />
+    </form>
+  </div>
+</body>
+
+<script>
+  document.getElementById('btn-add-new-idea').addEventListener('click', () => {
+    document.getElementById('form-add-idea-container').style.display = 'flex'
+  })
+
+  document.getElementById('form-add-idea-container').addEventListener('click', e => {
+    if(e.target.id === 'form-add-idea-container') {
+      document.getElementById('form-add-idea-container').style.display = 'none'
+    }
+  })
+
+  let postImg = null;
+
+  document.getElementById('choose-post-photo').addEventListener('click', () => {
+    let files = [];
+    let reader;
+
+    let input = document.createElement('input');
+    input.type = 'file';
+
+
+    input.onchange = e => {
+      files = e.target.files;
+
+      reader = new FileReader();
+      reader.onload = async () => {
+      const size = files[0].size
+      const ext = files[0].type.split('/')[1]
+
+      if(!['png', 'jpg', 'jpeg', 'jfif'].includes(ext)) {
+        alert('A extensão do ficheiro não é válida!')
+        return
+      }
+
+      if(size > 1024000) {
+        alert('O tamanho do seu ficheiro é superior ao limite permitido (1 MB)')
+        return
+      }
+
+      postImg = reader.result
+        document.getElementById('choose-post-photo').style.background = `url(${reader.result}) no-repeat center center/contain`;
+      }
+      reader.readAsDataURL(files[0]);
+    }
+
+    input.click();
+  })
+
+  document.getElementById('form-add-idea').addEventListener('submit', async e => {
+    e.preventDefault()
+    const title = document.getElementById('inp-idea-title').value
+    const text = document.getElementById('textarea-idea').value
+    const category = document.getElementById('select-idea-category').value
+    const changeBy = document.getElementById('inp-change-by').value
+    const price = document.getElementById('inp-price').value
+
+    const idea = {title, text, category, removed: false, changeBy, img: postImg, price}
+
+    const response = await fetch('/post', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify(idea)
+    })
+
+    const json = await response.json()
+
+    if(json.success) {
+      alert('Post adicionado com sucesso!')
+    }
+
+  })
+
+  document.getElementById('form-profile').addEventListener('submit', async e => {
+    e.preventDefault()
+    const fullName = document.getElementById('inp-full-name').value
+    const email = document.getElementById('inp-email').value
+    const zone = document.getElementById('select-zone').value
+    const contact = document.getElementById('inp-contact').value
+
+    const data = {fullName, email, zone, contact}
+
+    const response = await fetch('/updateprofile', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify(data)
+    })
+
+    const json = await response.json()
+
+    console.log(json)
+
+    if(json.success) {
+      alert('Perfil actualizado!')
+    }
+
+  })
+
+  getProfileInfo()
+
+  async function getProfileInfo() {
+    const response = await fetch('/profileinfo')
+    const json = await response.json()
+
+    console.log(json)
+    document.getElementById('inp-full-name').value = json[0].fullName !== undefined ? json[0].fullName : ''
+    document.getElementById('inp-email').value = json[0].email
+    document.getElementById('inp-contact').value = json[0].contact
+    let zones = ''
+    console.log(json[0].zone)
+    config.zones.forEach(z => {
+      const isUserZone = json[0].zone == z.id
+      zones += `<option value="${z.id}" ${isUserZone ? 'selected' : false}>${z.label}</option>`
+    })
+
+    document.getElementById('select-zone').innerHTML = zones
+
+  }
+
+  getUserPosts()
+
+  async function getUserPosts() {
+    const response = await fetch('/userposts')
+    const json = await response.json()
+    let posts = '';
+    if(json.length > 0) {
+      json.forEach(post => {
+        posts += 
+        `<div class="post">
+            <h3>
+              <i class='la la-trash' onClick='removePost("${post._id}");'></i>
+              <i class='la la-edit'></i>
+              ${post.title}</h3>
+            <p>${post.text}</p>
+            <div class="like-comment">
+              <button> <span>${post.likes !== undefined ? post.likes.length : 0}</span>  <i class="la la-thumbs-up"></i></button>
+              <button> <span>0</span> <i class="la la-comments"></i></button>
+            </div>
+          </div>
+        `
+      })
+  
+      document.getElementById('posts').innerHTML = posts
+  
+    }
+  }
+
+  async function removePost(id) {
+    const response = await fetch(`/removepost/${id}`)
+    const json = await response.json()
+
+    if(json.success) {
+      window.location.href = '/dashboard'
+    }
+  }
+
+  let categories = ''
+  config.postsCategories.forEach(p => {
+    categories += `<option value="${p.id}">${p.label}</option>`
+  })
+  document.getElementById('select-idea-category').innerHTML = categories
+</script>
+</html>

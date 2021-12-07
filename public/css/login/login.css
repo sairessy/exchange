@@ -1,0 +1,99 @@
+body {
+  background-color: #eee;
+}
+
+#form-login-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+}
+
+#form-login {
+  background-color: #fff;
+  display: flex;
+  flex-direction: column;
+  width: 400px;
+  height: 90vh;
+  border-radius: 10px;
+  border: 1px solid #ddd;
+  justify-content: center;
+}
+
+.logo-container {
+  height: 70px;
+  display: flex;
+  align-items: center;
+  border-bottom: 1px solid #ddd;
+  justify-content: center;
+}
+
+.inputs-container {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  padding: 10px;
+
+}
+
+#form-login h1 {
+  font-family: Bahnschrift;
+  font-size: 26px;
+}
+
+#form-login h1 a {
+  color: #ddd;
+  display: flex;
+  align-items: center;
+}
+
+#form-login h1 a img {
+  margin-right: 10px;
+}
+
+#form-login input {
+  margin-bottom: 10px;
+  border-radius: 5px;
+  border: 1px solid #eee;
+  padding: 14px;
+  font-size: 16px;
+}
+
+/* #form-login input[type='email'] {
+  padding-left: 50px;
+  background: url(../../assets/img/at-solid.svg) no-repeat 10px center/22px;
+}
+
+#form-login input[type='password'] {
+  padding-left: 50px;
+  background: url(../../assets/img/key-solid.svg) no-repeat 10px center/22px;
+} */
+
+#form-login input:focus {
+  border-color: #ddd;
+}
+
+#form-login input[type='submit'] {
+  background-color: indigo;
+  background-color: indigo;
+  color: #fff;
+  cursor: pointer;
+}
+
+.links {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.links a {
+  font-size: 16px;
+  color: indigo;
+  margin-bottom: 5px;
+}
+
+.links a:hover {
+  text-decoration: underline;
+}
+

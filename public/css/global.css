@@ -1,0 +1,80 @@
+::-webkit-scrollbar {
+  width: 12px;
+}
+
+::-webkit-scrollbar-thumb {
+  background-color: #ccc;
+}
+
+@font-face {
+  src: url(../assets/fonts/Montserrat/Montserrat-Medium.ttf);
+  font-family: ms;
+}
+
+@font-face {
+  src: url(../assets/fonts/Roboto/Roboto-Thin.ttf);
+  font-family: rbt;
+}
+
+* {
+  /* font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif; */
+  font-family: rbt;
+  box-sizing: border-box;
+}
+
+a {
+  text-decoration: none;
+  color: #000;
+}
+
+body {
+  padding: 0;
+  margin: 0;
+  background-color: #f9f9f9;
+}
+
+button, input {
+  padding: 5px;
+}
+
+button, input[type='submit'] {
+  cursor: pointer;
+}
+
+ul {
+  list-style: none;
+  margin-top: 10px;
+}
+
+button {
+  outline: none;
+}
+
+input, textarea, select {
+  outline: none;
+  border: 1px solid #eee;
+}
+
+@keyframes anm {
+  from{transform: scale(1.1);}
+  to{transform: scale(1);}
+}
+
+header button i {
+  animation: anm 3s 1s infinite;
+}
+
+button:active, input[type='submit']:active {
+  opacity: .8;
+}
+
+/*  */
+input:-webkit-autofill,
+input:-webkit-autofill:hover, 
+input:-webkit-autofill:focus, 
+input:-webkit-autofill:active  {
+    -webkit-box-shadow: 0 0 0 30px white inset !important;
+}
+input:-webkit-autofill {
+  -webkit-text-fill-color: #000 !important;
+}

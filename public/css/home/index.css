@@ -1,0 +1,522 @@
+header {
+  position: sticky;
+  top: 0;
+  z-index: 3;
+}
+
+.header-top {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  background-color: #fff;
+  border-bottom: 1px solid #eee;
+  box-shadow: 0 -1px 10px #eee;
+  padding: 10px;
+  height: 60px;
+}
+
+@font-face {
+  font-family: xv;
+  src: url(../../assets/fonts/Montserrat/Montserrat-Black.ttf);
+}
+.header-top h1 {
+  font-family: Bahnschrift;
+  font-size: 26px;
+}
+
+.header-top h1 a {
+  display: flex;
+  align-items: center;
+}
+
+.header-top h1 a img {
+  margin-right: 10px;
+}
+
+.header-top input[type='search'] {
+  padding: 10px;
+  width: 250px;
+  padding-left: 40px;
+  background: url('https://img.icons8.com/material-outlined/24/666666/search--v1.png') no-repeat 10px center/20px;
+  background-color: #f9f9f9;
+  border: 1px solid #eee;
+  outline: none;
+  border-radius: 5px;
+  margin-left: 10px;
+}
+
+.header-top input[type='search']:focus {
+  background-color: #fff;
+}
+
+.header-top > div {
+  display: flex;
+  align-items: center;
+  flex: 1;
+  justify-content: center;
+}
+
+.header-top button {
+  flex: 1;
+  background-color: #0000ff1f;
+  border: none;
+  color: indigo;
+  padding: 12px;
+  cursor: pointer;
+  border-radius: 5px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.header-top button i {
+  margin-right: 10px;
+  font-size: 16px;
+}
+
+.header-top > div > a {
+  margin-left: 10px;
+  color: #fff;
+  background-color: indigo;
+  padding: 10px;
+  border-radius: 5px;
+  width: 100px;
+  text-align: center;
+}
+
+.header-top > div:nth-child(1) {
+  justify-content: left;
+  padding-left: 50px;
+}
+
+.header-bottom {
+  background-color: #ffffffec;
+  border-bottom: 1px solid #eee;
+  padding: 5px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 60px;
+}
+
+/* main */
+main {
+  display: flex;
+}
+
+main .main-left, main .main-right {
+  justify-content: center;
+}
+
+main .main-right {
+  display: block;
+  margin: 0 50px;
+  width: 360px;
+}
+
+main .main-left {
+  padding: 0 10px;
+  flex: 1;
+}
+
+.main-right-wrapper {
+  justify-content: space-around;
+  position: sticky;
+  top: 140px;
+}
+
+.main-right .categories {
+  flex: 1;
+  margin: 0 5px;
+}
+
+.categories h3 {
+  background-color: #fff;
+  padding: 10px;
+  text-align: center;
+  border-radius: 5px;
+  color: #666;
+}
+
+.main-right .categories select {
+  width: 100%;
+  padding: 10px;
+  border-radius: 5px;
+  background-color: #fff;
+  cursor: pointer;
+}
+
+main .post {
+  width: 600px;
+  background-color: #fff;
+  margin: auto;
+  margin-bottom: 50px;
+  margin-top: 20px;
+  border-radius: 10px;
+  border: 1px solid #ddd;
+}
+
+main .post .post-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  border-bottom: 1px solid #ddd;
+  padding: 15px;
+}
+
+main .post .post-title {
+  font-size: 17px;
+  display: flex;
+  align-items: center;
+  margin: 0;
+}
+
+main .post .the-post-body {
+  padding: 15px;
+}
+
+.post .post-author {
+  font-size: 16px;
+  color: #666;
+  display: flex;
+  align-items: center;
+}
+
+.post-author i {
+  margin-right: 10px;
+  font-size: 18px;
+}
+
+.post h3 {
+  color: #666;
+}
+
+.post .text {
+  background-color: #fcfcfc;
+  color: #000;
+  border: 1px solid #eee;
+  border-radius: 5px;
+  padding: 10px 5px;
+}
+
+.post .post-photo {
+  height: 300px;
+  margin-bottom: 10px;
+  border-radius: 10px;
+  position: relative;
+}
+
+.post .post-photo span {
+  color: #2bccb1;
+  margin: 10px;
+  position: absolute;
+}
+
+main .like-comment {
+  display: flex;
+}
+
+main .like-comment button {
+  border: none;
+  box-shadow: 0 0 2px 4px #fcfcfc;
+  background-color: #eee;
+  width: 120px;
+  padding: 12px 10px;
+  border-radius: 5px;
+  cursor: pointer;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-right: 5px;
+}
+
+
+main .like-comment button span {
+  display: inline-block;
+  width: 50px;
+}
+
+main .like-comment button i {
+  font-size: 16px;
+  margin-left: 10px;
+}
+
+.founders-container {
+  display: none;
+}
+
+.founders-container h3 {
+  padding: 5px;
+  text-align: center;
+  border-radius: 5px;
+  color: #666;
+  margin: 10px 20px;
+}
+
+.founders {
+  display: flex;
+  justify-content: center;
+  margin-top: 20px;
+}
+
+.founders div {
+  background-color: #eee;
+  width: 50px;
+  height: 50px;
+  border-radius: 100%;
+  margin: auto 20px;
+}
+
+/*  */
+#form-add-idea-container {
+  display: none;
+  justify-content: center;
+  position: fixed;
+  top: 0;
+  width: 100%;
+  height: 100vh;
+  background-color: #0000ff13;
+  overflow-y: scroll;
+  z-index: 5;
+}
+
+#form-add-idea {
+  display: flex;
+  flex-direction: column;
+  background-color: #fff;
+  width: 60%;
+  padding: 10px;
+
+}
+
+#form-add-idea #choose-post-photo {
+  height: 250px;
+  background-color: #f9f9f9;
+  border-radius: 5px;
+  margin-bottom: 5px;
+  cursor: pointer;
+}
+
+#inp-idea-title {
+  padding: 15px;
+  margin-bottom: 10px;
+  border-radius: 5px;
+  border: 1px solid #eee;
+}
+
+textarea {
+  padding: 15px;
+  border-radius: 5px;
+  border: 1px solid #eee;
+}
+
+#select-idea-category {
+  padding: 15px;
+  margin: 10px 0;
+  border-radius: 5px;
+  border: 1px solid #eee;
+}
+
+#btn-submit-idea {
+  background-color: indigo;
+  color: #fff;
+  cursor: pointer;
+  border-radius: 5px;
+  border: none;
+  padding: 15px;
+  margin-top: 10px;
+}
+
+#form-add-idea input {
+  padding: 12px;
+  border-radius: 5px;
+  margin-bottom: 5px;
+}
+
+#form-add-idea input:focus,
+#form-add-idea select:focus,
+#form-add-idea textarea:focus {
+  border-color: #ddd;
+}
+
+/*  */
+#form-edit-comment-container {
+  display: none;
+  justify-content: center;
+  position: fixed;
+  top: 0;
+  width: 100%;
+  min-height: 100vh;
+  background-color: #0000ff13;
+}
+
+#form-edit-comment {
+  display: flex;
+  flex-direction: column;
+  background-color: #fff;
+  width: 60%;
+  padding: 10px;
+  margin: auto;
+}
+
+
+#form-edit-comment textarea {
+  border: 1px solid #eee;
+}
+
+
+#btn-edit-comment {
+  background-color: indigo;
+  color: #fff;
+  cursor: pointer;
+  border-radius: 5px;
+  border: none;
+  padding: 10px;
+  margin-top: 10px;
+}
+
+/*  */
+.comments-container {
+  padding: 15px;
+  display: none;
+  border-top: 1px solid #eee;
+  margin-top: 5px;
+  background-color: #f6f6f6;
+  border-bottom-left-radius: 10px;
+  border-bottom-right-radius: 10px;
+  height: 200px;
+  overflow-y: scroll;
+}
+
+.form-comment {
+  padding: 5px 0;
+  display: flex;
+}
+
+.form-comment button {
+  background-color: #eee;
+  outline: none;
+  border: none;
+  width: 50px;
+  color: indigo;
+  border-top-right-radius: 10px;
+  border-bottom-right-radius: 10px;
+  font-size: 18px;
+  cursor: pointer;
+}
+
+.form-comment button:hover {
+  background-color: #ddd;
+}
+
+.comment {
+  background-color: #fcfcfc;
+  border-radius: 10px;
+  padding: 10px;
+  font-size: 12px;
+  margin-bottom: 5px;
+}
+
+.commenter-container {
+  border-radius: 5px;
+  margin-right: 10px;
+  display: flex;
+  align-items: center;
+  overflow: hidden;
+}
+
+.commenter {
+  align-items: center;
+  margin-top: 10px;
+}
+
+.comment b, .comment p {
+  margin-right: 10px;
+}
+
+.comment p {
+  padding: 15px;
+}
+
+.commenter-photo {
+  display: block;
+  width: 40px;
+  height: 40px;
+  margin-right: 10px;
+  border-radius: 100%;
+}
+
+.form-comment input {
+  flex: 1;
+  outline: none;
+  background-color: none;
+  border: 1px solid #eee;
+  padding: 10px;
+  border-top-left-radius: 10px;
+  border-bottom-left-radius: 10px;
+}
+
+/*  */
+.btn-notifications {
+  position: relative;
+  width: 30px;
+  height: 30px;
+  background-color: #eee;
+  border-radius: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin: 0 10px;
+  cursor: pointer;
+}
+
+.btn-notifications span {
+  position: absolute;
+  top: -5px;
+  right: -5px;
+  font-size: 12px;
+  width: 20px;
+  height: 20px;
+  background-color: #ff0000;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  color: #fff;
+  border-radius: 100%;
+}
+
+/*  */
+
+#form-feedback {
+  display: flex;
+  flex-direction: column;
+  border-radius: 5px;
+  background-color: #fff;
+  border: 1px solid #eee;
+  display: none;
+}
+
+#form-feedback #title {
+  border-bottom: 1px solid #eee;
+  padding: 10px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+#feedback-inputs {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  padding: 10px;
+}
+
+#feedback-inputs input, #feedback-inputs textarea {
+  margin-bottom: 5px;
+  border-radius: 5px;
+  padding: 15px;
+}
+
+#feedback-inputs textarea {
+  height: 100px;
+}
